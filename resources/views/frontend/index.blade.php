@@ -5,8 +5,8 @@
 @section('content')
     
 
-    <!-- SLIDER AREA START (slider-3) -->
-    <div class="ltn__slider-area ltn__slider-3  section-bg-2---">
+     <!-- SLIDER AREA START (slider-3) -->
+     <div class="ltn__slider-area ltn__slider-3  section-bg-2---">
         <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
             <!-- ltn__slide-item -->
             <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/slider_1.jpg">
@@ -135,17 +135,14 @@
                 <div class="col-lg-6 align-self-center">
                     <div class="about-us-info-wrap mb-50">
                         <div class="section-title-area ltn__section-title-2">
-                            <h6 class="section-subtitle ltn__secondary-color"><span><i class="fas fa-square-full"></i></span> Construction Service</h6>
-                            <h1 class="section-title">Provide Construction
-                                Service For You</h1>
-                            <p>Construction is a general term meaning the art and science to form objects
-                                systems organizations, and comes from Latin</p>
+                            <h6 class="section-subtitle ltn__secondary-color"><span><i class="fas fa-square-full"></i></span> Service</h6>
+                            <h1 class="section-title">What we do</h1>
                         </div>
-                        <p>Construction is a general term meaning the art and science to form objects systems
-                            organizations, and comes from Latin construction and Old French construction. To
-                            construct is the verb: the act of building, and the noun</p>
+                        <p>
+                            Provide Biding Service for goverment and the people
+                        </p>
                         <div class="btn-wrapper">
-                            <a class="btn theme-btn-1 btn-effect-1" href="service.html">View Service</a>
+                            <a class="btn theme-btn-1 btn-effect-1" href="">View Service</a>
                         </div>
                     </div>
                 </div>
@@ -157,9 +154,9 @@
                                     <span><i class="icon-repair"></i></span>
                                 </div>
                                 <div class="ltn__feature-info">
-                                    <h3><a href="service-details.html">Mechanical Works</a></h3>
-                                    <p>Construction is a general term the art and science to form </p>
-                                    <a class="ltn__service-btn ltn__service-btn-2" href="service-details.html">Service Details <i class="flaticon-right-arrow"></i></a>
+                                    <h3><a href="#">Mechanical Works</a></h3>
+                                    <p>Access update new in this sector</p>
+                                    {{-- <a class="ltn__service-btn ltn__service-btn-2" href="#">Service Details <i class="flaticon-right-arrow"></i></a> --}}
                                 </div>
                             </div>
                         </div>
@@ -169,9 +166,9 @@
                                     <span><i class="flaticon-slider"></i></span>
                                 </div>
                                 <div class="ltn__feature-info">
-                                    <h3><a href="service-details.html">Power & Energy</a></h3>
-                                    <p>Construction is a general term the art and science to form </p>
-                                    <a class="ltn__service-btn ltn__service-btn-2" href="service-details.html">Service Details <i class="flaticon-right-arrow"></i></a>
+                                    <h3><a href="#">Power & Energy</a></h3>
+                                    <p>Access update new in this sector</p>
+                                    {{-- <a class="ltn__service-btn ltn__service-btn-2" href="#">Service Details <i class="flaticon-right-arrow"></i></a> --}}
                                 </div>
                             </div>
                         </div>
@@ -181,9 +178,9 @@
                                     <span><i class="flaticon-building"></i></span>
                                 </div>
                                 <div class="ltn__feature-info">
-                                    <h3><a href="service-details.html">Petroleum Refinery</a></h3>
-                                    <p>Construction is a general term the art and science to form </p>
-                                    <a class="ltn__service-btn ltn__service-btn-2" href="service-details.html">Service Details <i class="flaticon-right-arrow"></i></a>
+                                    <h3><a href="#">Petroleum Refinery</a></h3>
+                                    <p>Access update new in this sector</p>
+                                    {{-- <a class="ltn__service-btn ltn__service-btn-2" href="#">Service Details <i class="flaticon-right-arrow"></i></a> --}}
                                 </div>
                             </div>
                         </div>
@@ -193,9 +190,9 @@
                                     <span><i class="flaticon-house"></i></span>
                                 </div>
                                 <div class="ltn__feature-info">
-                                    <h3><a href="service-details.html">Interior Design</a></h3>
-                                    <p>Construction is a general term the art and science to form </p>
-                                    <a class="ltn__service-btn ltn__service-btn-2" href="service-details.html">Service Details <i class="flaticon-right-arrow"></i></a>
+                                    <h3><a href="#">Interior Design</a></h3>
+                                    <p>Access update new in this sector</p>
+                                    {{-- <a class="ltn__service-btn ltn__service-btn-2" href="#">Service Details <i class="flaticon-right-arrow"></i></a> --}}
                                 </div>
                             </div>
                         </div>
@@ -221,10 +218,11 @@
             </div>
             <div class="row ltn__image-slider-3-active slick-arrow-1 slick-arrow-1-inner---">
                 @foreach ($contract as $contracts)     
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-4">
                         <div class="ltn__img-slide-item-3 ltn__img-slide-item-3-2">
                             <a href="{{ route('contractor-project', $contracts->slug) }}">
-                                <img src="{{ asset('upload/contract/'.$contracts->image) }}" alt="Image">
+                                <img src="{{ $contracts->image }}" alt="Image">
+                                {{-- <img src="{{ asset('upload/contract/'.$contracts->image) }}" alt="Image"> --}}
                             </a>
                             <div class="ltn__img-slide-info">
                                 <div class="ltn__img-slide-info-brief">
@@ -253,34 +251,24 @@
                 <div class="col-lg-6 align-self-center">
                     <div class="about-us-info-wrap">
                         <div class="section-title-area ltn__section-title-2 mb-20">
-                            <h6 class="section-subtitle ltn__secondary-color"><span><i class="fas fa-square-full ltn__secondary-color"></i></span> Great Experience In Building</h6>
-                            <h1 class="section-title">Our Specialization &
-                                Company Features</h1>
+                            <h1 class="section-title"> Great Experience In Bidding</h1>
                         </div>
-                        <ul class="ltn__list-item-half ltn__list-item-half-2 list-item-margin clearfix">
+                        <ul class="ltn__list-item-half  list-item-margin clearfix">
                             <li>
                                 <i class="icon-done"></i>
-                                Living rooms are pre-wired for Surround
+                                Develop and enforce procurement regulations, guidelines, and standards.
                             </li>
                             <li>
                                 <i class="icon-done"></i>
-                                Luxurious interior design and amenities
+                                Provide training, capacity building, and advisory services to procurement officers, and other stakeholders.
                             </li>
                             <li>
                                 <i class="icon-done"></i>
-                                Nestled in the Buckhead Vinings communities
+                                Conduct procurement audits, reviews, and evaluations to assess compliance with procurement laws.
                             </li>
                             <li>
                                 <i class="icon-done"></i>
-                                Private balconies with stunning views
-                            </li>
-                            <li>
-                                <i class="icon-done"></i>
-                                A rare combination of inspired architecture
-                            </li>
-                            <li>
-                                <i class="icon-done"></i>
-                                Outdoor grilling with dining court
+                                Implement e-procurement systems and technologies to streamline procurement processes and reduce transaction costs
                             </li>
                         </ul>
                     </div>

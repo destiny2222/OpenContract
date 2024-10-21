@@ -41,16 +41,32 @@
                         <div class="ltn__pagination-area text-center">
                             <div class="ltn__pagination">
                                 <ul>
-                                    <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li class="active"><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">...</a></li>
-                                    <li><a href="#">10</a></li>
-                                    <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                                    <!-- Previous Page Link -->
+                                    @if ($project->onFirstPage())
+                                        <li class="disabled"><span><i class="fas fa-angle-double-left"></i></span></li>
+                                    @else
+                                        <li><a href="{{ $project->previousPageUrl() }}"><i class="fas fa-angle-double-left"></i></a></li>
+                                    @endif
+                        
+                                    <!-- Pagination Links -->
+                                    @foreach ($project->links()->elements[0] as $page => $url)
+                                        @if ($page == $project->currentPage())
+                                            <li class="active"><a href="#">{{ $page }}</a></li>
+                                        @else
+                                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+                        
+                                    <!-- Next Page Link -->
+                                    @if ($project->hasMorePages())
+                                        <li><a href="{{ $project->nextPageUrl() }}"><i class="fas fa-angle-double-right"></i></a></li>
+                                    @else
+                                        <li class="disabled"><span><i class="fas fa-angle-double-right"></i></span></li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

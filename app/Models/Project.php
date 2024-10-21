@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use LaracraftTech\LaravelDateScopes\DateScopes;
 
 class Project extends Model
 {
     use HasFactory;
+    use DateScopes;
 
     protected $fillable = [
         'title',
         'slug',
         'body',
-        'value',
+        'value','email', 'phone',
         'award_date',
         'award',
         'location',
@@ -99,7 +101,7 @@ class Project extends Model
 
     public static function getTotalAwardsAmount()
     {
-        return self::sum('Total Awards Amount');
+        return self::sum('award');
     }
 
     public static function getTotalContractsAmount()

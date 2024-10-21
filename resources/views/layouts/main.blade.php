@@ -20,6 +20,7 @@
     <!-- Responsive css -->
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    @livewireStyles
 </head>
 
 <body>
@@ -43,7 +44,7 @@
                         <div class="footer-widget footer-about-widget">
                             <div class="footer-logo">
                                 <div class="site-logo">
-                                    <img src="img/logo-2.png" alt="Logo">
+                                    <img src="ilogo-2.png" alt="Logo">
                                 </div>
                             </div>
                             <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is dummy text of the printing.</p>
@@ -63,9 +64,9 @@
                             <h4 class="footer-title">Company</h4>
                             <div class="footer-menu">
                                 <ul>
-                                    <li><a href="about.html">About</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="faq.html">FAQ</a></li>
+                                    <li><a href="#">About</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">FAQ</a></li>
                                     
                                 </ul>
                             </div>
@@ -76,9 +77,9 @@
                             <h4 class="footer-title">Services</h4>
                             <div class="footer-menu">
                                 <ul>
-                                    <li><a href="faq.html">FAQ</a></li>
+                                    <li><a href="#">FAQ</a></li>
                                     <li><a href="#">Terms & Conditions</a></li>
-                                    <li><a href="contact.html">Contact us</a></li>
+                                    <li><a href="#">Contact us</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -147,9 +148,10 @@
     <script>
         let table = new DataTable('#myTable');
     </script>
-
+    <script src="//code.tidio.co/gbtzbnuy3n5zlozd69odw8zflavwxr1o.js" async></script>
     @include('partials.message')
     @stack('scripts')
+    @livewireScripts
 </body>
 </html>
 

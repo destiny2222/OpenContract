@@ -89,27 +89,27 @@
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
                 <h2>All Projects By Year</h2>
                 <div class="chart">
-                    <div id="barchart" width="300" height="300"></div>
+                    <canvas id="projectsByYearChart" width="300" height="300"></canvas>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
                 <h2>All-time budget by Year</h2>
                 <div class="chart">
-                    <div id="chart3" width="300" height="300"></div>
+                    <canvas id="budgetByMonthChart" width="300" height="300"></canvas>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
+            {{-- <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
                 <h2>All-time Awards</h2>
                 <div class="chart">
-                    <div id="chartbar"></div>
+                    <canvas id="chartbar"></canvas>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 mb-4">
                 <h2>All-time Projects by Categories</h2>
                 <div class="chart">
-                    <div id="chartbar3"></div>
+                    <canvas id="projectsByCategoryChart"></canvas>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>
@@ -121,190 +121,94 @@
 
 @push('scripts')
 
+<!-- Add necessary scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-    var options = {
-          series: [{
-          name: 'Sales',
-          data: [{{ $visuals }}]
-        }],
-          chart: {
-          height: 350,
-          type: 'line',
+    var chartData =  @json($chartData);
+    // Data for Projects By Year Chart
+    chartData.labels = chartData.labels.map(function(dateString) {
+        return new Date(dateString).getFullYear();  // Extracts the year from the date string
+    });
+    var projectsByYearCtx = document.getElementById('projectsByYearChart').getContext('2d');
+    
+    var projectsByYearChart = new Chart(projectsByYearCtx, {
+        type: 'bar', // You can choose 'bar', 'line', 'pie', etc.
+        data: {
+            labels: chartData.labels, // Year labels
+            datasets: [{
+                label: 'Projects',
+                data: chartData.data, // Project counts per year
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
         },
-        forecastDataPoints: {
-          count: 7
-        },
-        stroke: {
-          width: 5,
-          curve: 'smooth'
-        },
-        xaxis: {
-          type: 'datetime',
-          categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000', '8/11/2000', '9/11/2000', '10/11/2000', '11/11/2000', '12/11/2000', '1/11/2001', '2/11/2001', '3/11/2001','4/11/2001' ,'5/11/2001' ,'6/11/2001'],
-          tickAmount: 10,
-          labels: {
-            formatter: function(value, timestamp, opts) {
-              return opts.dateFormatter(new Date(timestamp), 'dd MMM')
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
-          }
-        },
-        title: {
-          text: 'Forecast',
-          align: 'left',
-          style: {
-            fontSize: "16px",
-            color: '#666'
-          }
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            shade: 'dark',
-            gradientToColors: [ '#FDD835'],
-            shadeIntensity: 1,
-            type: 'horizontal',
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 100, 100, 100]
-          },
-        },
-        yaxis: {
-          min: -10,
-          max: 40
         }
-        };
+    });
 
-        var chart = new ApexCharts(document.querySelector("#barchart"), options);
-        chart.render();
-</script>
+    // Data for Budget By Month Chart
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var budgetByMonth = @json($budgetByMonth);
 
-<script>
-    var options = {
-  chart: {
-    type: 'bar'
-  },
-  series: [{
-    name: 'sales',
-    data: [30,40,45,50,49,60,70,91,125]
-  }],
-  xaxis: {
-    categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
-  }
-}
+    // Convert the date string to month names
+    budgetByMonth.labels = budgetByMonth.labels.map(function(dateString) {
+        let monthIndex = new Date(dateString).getMonth();  // Extracts the month (0-11)
+        return monthNames[monthIndex];  // Convert to month name
+    });
 
-var chart = new ApexCharts(document.querySelector("#chartbar"), options);
-
-chart.render();
-</script>
-
-<script>
-     var options = {
-          series: [44, 55, 13, 43, 22],
-          chart: {
-          width: 380,
-          type: 'pie',
+    var budgetByMonthCtx = document.getElementById('budgetByMonthChart').getContext('2d');
+    var budgetByMonthChart = new Chart(budgetByMonthCtx, {
+        type: 'line',
+        data: {
+            labels: budgetByMonth.labels, // Month labels
+            datasets: [{
+                label: 'Budget',
+                data: budgetByMonth.data, // Budget values per month
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
         },
-        labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
-          }
-        }]
-        };
-
-        var chart = new ApexCharts(document.querySelector("#chartbar3"), options);
-        chart.render();
-</script>
-
-<script>
-    var options = {
-          series: [{
-          name: 'Inflation',
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }],
-          chart: {
-          height: 350,
-          type: 'bar',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + "%";
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },
-        
-        xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + "%";
-            }
-          }
-        
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
         }
-        };
+    });
 
-        
-        var chart = new ApexCharts(document.querySelector("#chart3"), options);
-        chart.render();
+    // Data for Projects By Category Chart
+    var CategoryChart = @json($CategoryChart); 
+    var projectsByCategoryCtx = document.getElementById('projectsByCategoryChart').getContext('2d');
+    var projectsByCategoryChart = new Chart(projectsByCategoryCtx, {
+        type: 'pie',
+        data: {
+            labels: CategoryChart.labels, // Category labels
+            datasets: [{
+                label: 'Projects',
+                data: CategoryChart.data, // Project counts per category
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
 </script>
 @endpush

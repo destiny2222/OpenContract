@@ -12145,7 +12145,7 @@ input.cart-plus-minus-box {
   -ms-flex-flow: row wrap;
   flex-flow: row wrap; }
   .ltn__list-item-half li {
-    width: 50%;
+    width: 100%;
     float: left;
     list-style: none;
     display: -webkit-box;
@@ -14612,7 +14612,7 @@ input.cart-plus-minus-box {
 }
 
 #myTable{
-  color: #fff !important;
+  color: #242121 !important;
 }
 .table th {
   background: none repeat scroll 0 0 #FF6D2B !important;

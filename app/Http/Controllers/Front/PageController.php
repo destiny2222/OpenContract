@@ -22,7 +22,7 @@ class PageController extends Controller
 
     public function projectView(Contractor $contractor){
         if($contractor){
-            $project = Project::where('contractor_id', $contractor->id)->get();
+            $project = Project::where('contractor_id', $contractor->id)->paginate(9);
             // dd($project);
             return view('frontend.project', compact('project'));
         }else{
@@ -56,23 +56,66 @@ class PageController extends Controller
 
 
     
+    
     public function visualsView(){
-        $projectCount = Project::getProjectCount();
-        $awardCount = Project::getAwardCount();
-        // $totalContractsCount = Project::getTotalContractsCount();
-        $totalTendersAmount = Project::getTotalTendersAmount();
-        // $totalAwardsAmount = Project::getTotalAwardsAmount();
-        $totalContractsAmount = Project::getTotalContractsAmount();
-        $visuals = Project::with('contractor')->get();
-        // dd($vis)
-        return view('frontend.visuals',[
-            'visuals' => $visuals->count(),
-            'projectCount' => $projectCount,
-            'awardCount' => $awardCount,
-            // 'totalContractsCount' => $totalContractsCount,
-            'totalTendersAmount' => $totalTendersAmount,
-            // 'totalAwardsAmount' => $totalAwardsAmount,
-            'totalContractsAmount' => $totalContractsAmount,
-        ]);
-    }
+            $projectCount = Project::getProjectCount();
+            $awardCount = Project::getAwardCount();
+            // $totalContractsCount = Project::getTotalContractsCount();
+            $totalTendersAmount = Project::getTotalTendersAmount();
+            $totalAwardsAmount = Project::getTotalAwardsAmount();
+            $totalContractsAmount = Project::getTotalContractsAmount();
+            $visuals = Project::with('contractor')->get();
+
+            $data = Project::ofLastWeek();
+            $chartData = [
+                'labels' => $data->pluck('created_at')->toArray(),  // Example: Dates for x-axis
+                'data' => $data->pluck('year')->toArray()          // Example: Values for y-axis
+            ];
+
+            // getBudgetByMonth
+            $budgetData = Project::monthToDate();
+            $budgetChartData = [
+                'labels' => $budgetData->pluck('created_at')->toArray(),
+                'data' => $budgetData->pluck('budget_amount')->toArray()
+            ];
+
+           // getProjectByCategory
+            $projectData = Project::weekToDate()
+            ->get()  
+            ->groupBy('category', 'created_at')  
+            ->map(function ($projects, $category) {
+                return $projects->count();  
+            });
+
+            $projectChartData = [
+            'labels' => $projectData->keys()->toArray(),  // Category names
+            'data' => $projectData->values()->toArray()   // Project counts for each category
+            ];
+
+            // dd($budgetChartData);
+            return view('frontend.visuals',[
+                'visuals' => $visuals->count(),
+                'projectCount' => $projectCount,
+                'awardCount' => $awardCount,
+                // 'totalContractsCount' => $totalContractsCount,
+                'totalTendersAmount' => $totalTendersAmount,
+                'totalAwardsAmount' => $totalAwardsAmount,
+                'totalContractsAmount' => $totalContractsAmount,
+                'chartData' => $chartData,
+                'budgetByMonth' => $budgetChartData,
+                'CategoryChart' => $projectChartData,
+            ]);
+        }
+        
+    
+    
+        private function getProjectByCategory(){
+            // Get projects by category
+            $projectsByCategory = Project::selectRaw('category, COUNT(*) as value')
+                ->groupBy('category')
+                ->pluck('category')
+                ->toArray();
+            return $projectsByCategory;
+        }
+
 }

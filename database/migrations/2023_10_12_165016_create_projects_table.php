@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('body')->nullable();
             $table->string('value')->nullable();
+            $table->string('email')->nullable();
             $table->date('award_date')->nullable();
             $table->boolean('award')->default(false);
             $table->string('location')->nullable();

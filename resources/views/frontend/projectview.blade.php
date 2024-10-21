@@ -13,10 +13,10 @@
         <div class="container">
             <div class="row ltn__image-slider-3-active slick-arrow-1 slick-arrow-1-inner---">
                 @foreach ($contract as $contracts)     
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 mb-4">
                         <div class="ltn__img-slide-item-3 ltn__img-slide-item-3-2">
                             <a href="{{ route('contractor-project', $contracts->slug) }}">
-                                <img src="{{ asset('upload/contract/'.$contracts->image) }}" alt="Image">
+                                <img src="{{ $contracts->image }}" alt="Image">
                             </a>
                             <div class="ltn__img-slide-info">
                                 <div class="ltn__img-slide-info-brief">
@@ -39,13 +39,28 @@
                     <div class="ltn__pagination-area text-center">
                         <div class="ltn__pagination">
                             <ul>
-                                <li><a href="#"><i class="fas fa-angle-double-left"></i></a></li>
-                                <li><a href="#">1</a></li>
-                                <li class="active"><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">...</a></li>
-                                <li><a href="#">10</a></li>
-                                <li><a href="#"><i class="fas fa-angle-double-right"></i></a></li>
+                                <!-- Previous Page Link -->
+                                @if ($contract->onFirstPage())
+                                    <li class="disabled"><span><i class="fas fa-angle-double-left"></i></span></li>
+                                @else
+                                    <li><a href="{{ $contract->previousPageUrl() }}"><i class="fas fa-angle-double-left"></i></a></li>
+                                @endif
+
+                                <!-- Pagination Links -->
+                                @foreach ($contract->links()->elements[0] as $page => $url)
+                                    @if ($page == $contract->currentPage())
+                                        <li class="active"><a href="#">{{ $page }}</a></li>
+                                    @else
+                                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                    @endif
+                                @endforeach
+
+                                <!-- Next Page Link -->
+                                @if ($contract->hasMorePages())
+                                    <li><a href="{{ $contract->nextPageUrl() }}"><i class="fas fa-angle-double-right"></i></a></li>
+                                @else
+                                    <li class="disabled"><span><i class="fas fa-angle-double-right"></i></span></li>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -53,6 +68,4 @@
             </div>
         </div>
     </div>
-
-
 @endsection
